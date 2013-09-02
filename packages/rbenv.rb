@@ -35,7 +35,7 @@ package :rbenv_bundler do
   runner "sudo -u #{user} -i gem install bundler"
   runner "sudo -u #{user} -i rbenv rehash"
 
-  verify do 
+  verify do
     @commands << "gem list | grep bundler"
   end
 end
@@ -60,7 +60,7 @@ package :install_rubygems do
 
   source "http://production.cf.rubygems.org/rubygems/rubygems-#{version}.tgz" do
     custom_install "sudo -u #{user} -i ruby setup.rb"
-    
+
     # post :install, "ln -s /usr/bin/gem1.8 /usr/bin/gem"
     post :install, "sudo -u #{user} -i gem update --system"
   end
@@ -78,7 +78,7 @@ package :install_bundler do
 
   runner "sudo -u #{user} -i gem install bundler --no-rdoc --no-ri"
   runner "sudo -u #{user} -i rbenv rehash"
-  
+
   verify do
     has_executable "/home/#{user}/.rbenv/shims/bundle"
   end

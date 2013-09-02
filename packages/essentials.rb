@@ -7,10 +7,11 @@ package :remove_legacy_ruby do
 end
 
 package :base_essentials do
-  apt 'git-core build-essential' 
+  apt 'git-core build-essential'
 end
 
 package :bootstrap, :provides => :essentials do
+  requires :apt_update
   requires :remove_legacy_ruby
   requires :base_essentials
 end
