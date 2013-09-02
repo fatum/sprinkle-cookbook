@@ -1,6 +1,6 @@
 package :install_mysql do
   description 'MySQL Database Server and development libraries'
-  apt 'mysql-server mysql-client' 
+  apt 'mysql-server mysql-client'
 
   verify do
     has_executable "mysqladmin"
@@ -17,7 +17,7 @@ end
 
 package :install_mysql_dev do
   description 'Ruby MySQL database driver'
-  
+
   apt %w{libmysqlclient-dev}
 end
 

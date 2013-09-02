@@ -15,9 +15,18 @@ package :create_deploy_user do
   end
 end
 
+package :add_deploy_ssh_keys_for_root do
+  id_rsa_pub = `cat ~/.ssh/id_rsa.pub`
+  authorized_keys_file = "/root/.ssh/authorized_keys"
+
+  push_text id_rsa_pub, authorized_keys_file
+end
+
 package :add_deploy_ssh_keys do
   description "Add deployer public key to authorized ones"
   requires :create_deploy_user
+  requires :add_deploy_ssh_keys_for_root
+
   user = fetch(:user)
 
   id_rsa_pub = `cat ~/.ssh/id_rsa.pub`
@@ -28,10 +37,10 @@ package :add_deploy_ssh_keys do
     pre :install, "mkdir -p /home/#{user}/.ssh"
   end
 
-  verify do
+  #verify do
     # not working! oO
-    #file_contains authorized_keys_file, id_rsa_pub
-  end
+  #  file_contains authorized_keys_file, id_rsa_pub
+  #end
 end
 
 package :set_permissions do
@@ -39,6 +48,11 @@ package :set_permissions do
 
   description "Set correct permissons and ownership"
   requires :add_deploy_ssh_keys
+
+  noop do
+    ## hook does not work in :add_deploy_ssh_keys
+    pre :install, "mkdir -p /home/#{user}/.ssh"
+  end
 
   runner "chmod 0700 /home/#{user}/.ssh"
   runner "chown -R #{user}:#{user} /home/#{user}/.ssh"

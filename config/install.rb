@@ -45,6 +45,8 @@ end
 
 policy :database, roles: :db do
   requires :essentials
+  requires :deploy
+  requires :database
 end
 
 policy :app, roles: :app do
