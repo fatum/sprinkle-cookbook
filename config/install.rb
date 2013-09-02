@@ -22,13 +22,10 @@ end
 # Require Packages
 require "#{path}/packages/essentials"
 require "#{path}/packages/deploy"
-require "#{path}/packages/apache"
+require "#{path}/packages/gems"
 require "#{path}/packages/rbenv"
 require "#{path}/packages/mysql"
-require "#{path}/packages/passenger_standalone"
-require "#{path}/packages/rails_development"
 require "#{path}/packages/memcache"
-require "#{path}/packages/dev_essentials"
 
 # What we're installing to your server
 # Take what you want, leave what you don't
@@ -54,4 +51,6 @@ policy :app, roles: :app do
   requires :essentials
   requires :deploy
   requires :ruby_rbenv
+  requires :install_mysql_dev
+  requires :gems
 end
